@@ -1,0 +1,4 @@
+.placeholder-dark::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
