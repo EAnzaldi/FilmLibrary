@@ -1,0 +1,9 @@
+.idea
+.env
+.vscode
+/doc
+/node_modules
+/old
+/lab
+*.db
+*.http
