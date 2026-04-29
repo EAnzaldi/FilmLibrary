@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useRef, useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { useState } from 'react'
 import './App.css'
 import { Film } from './models/FLModels.jsx'
-import NavHeader from './components/NavHeader.jsx';
-import Sidebar from "./components/Sidebar.jsx";
 import FilmList from "./components/FilmList.jsx";
+import { FilmForm, EditFilmForm } from "./components/FilmForm.jsx";
 import dayjs from "dayjs";
+import {Routes, Route} from 'react-router';
+import DefaultLayout from "./components/DefaultLayout.jsx";
 
 const myFilmLibrary = [
   new Film(1, "Pulp Fiction", true, "2026-04-10", 5, 1),
@@ -42,6 +42,22 @@ const getFilteredFilms = (films, filter) => {
   }
 }
 
+{/* ROUTES:
+  - index: / (?)
+  - login: /login
+
+  - libreria dei film: /films
+
+  - nuovo film: /films//new
+  - modifica film: /films/:fid/edit
+
+  - filtro favorites: /films/favorites
+  - filtro best rated: /films/best-rated
+  - filtro seen last month: /films/seen-last-month
+  - filtro unseen:  /films/unseen
+
+  - not found: *
+  */}
 
 function App() {
   const [films, setFilms] = useState(myFilmLibrary);
@@ -49,20 +65,51 @@ function App() {
   const [filter, setFilter] = useState(FilmFilter.ALL);
   const filteredFilms = getFilteredFilms(films, filter);
 
+  const addFilm = (film) => {
+    setFilms(oldFilms => {
+      // temporaneo
+      const newId = Math.max(...oldFilms.map(ans => ans.id)) + 1;
+      const newFilm = new Film(newId, film.title, film.isFavorite, film.watchDate, film.rating);
+      return [...oldFilms, newFilm];
+    });
+  }
+
+  const editFilm = (film) => {
+    setFilms(oldFilms => {
+      return oldFilms.map(f => {
+        if(f.id === film.id)
+          return new Film(film.id, film.title, film.isFavorite, film.watchDate, film.rating);
+        else return f;
+      });
+    });
+  }
+
   return (
-    <>
-      <NavHeader onToggleSidebar={() => setShowSidebar(!showSidebar)}/>
-      <Sidebar
-        show={showSidebar}
-        onHide={() => setShowSidebar(false)}
-        onFilterChange={setFilter}
-        filter={filter} />
-      <div style={{ marginLeft: showSidebar ? `355px` : '0px'}}>
-        <FilmList films={filteredFilms} />
-      </div>
-      <button className="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4"><i class="bi bi-plus"></i></button>
-    </>
+    <Routes>
+      <Route path="/films" element={ <DefaultLayout showSidebar={showSidebar} setShowSidebar={setShowSidebar} setFilter={setFilter} filter={filter}/>}>
+        <Route index element={ <FilmList films={filteredFilms} /> }></Route>
+        {/*
+          <Route path="favorites" element={<FilmList films={filteredFilms} />}></Route>
+          <Route path="best-rated" element={<FilmList films={filteredFilms} />}></Route>
+          <Route path="seen-last-month" element={<FilmList films={filteredFilms} />}></Route>
+          <Route path="unseen" element={<FilmList films={filteredFilms} />}></Route>*/}
+        <Route path="new" element={<FilmForm addFilm={addFilm} />}></Route>
+        <Route path=":filmId/edit" element={<EditFilmForm editFilm={editFilm}/>}></Route>
+      </Route>
+    </Routes>
   )
 }
 
 export default App
+
+{/*
+    <Routes>
+      <Route element={ <DefaultLayout />}>
+        <Route path="/questions/:questionId" element={ <QuestionDescription questions={questions} /> }>
+          <Route index element={ <Answers answers={answers} voteUp={voteUp} addAnswer={addAnswer} editAnswer={updateAnswer} deleteAnswer={deleteAnswer}/> } ></Route>
+          <Route path="answers/new" element={<AnswerForm addAnswer={addAnswer} />}></Route>
+          <Route path="answers/:answerId/edit" element={<EditAnswerForm answers={answers} editAnswer={updateAnswer}/>}></Route>
+        </Route>
+      </Route>
+  </Routes>
+  */}

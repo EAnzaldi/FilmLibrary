@@ -1,12 +1,17 @@
 import { Table} from "react-bootstrap";
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 function FilmList(props) {
     return (
+        <>
         <div className="border-start border-end border-1 px-3 my-3">
             <h2>All films</h2>   
             <FilmTable films={props.films} />
         </div>
+        {/*<button className="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4"><i class="bi bi-plus"></i></button>*/}
+        <Link className="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4" to="new"><i className="bi bi-plus"></i></Link>
+        </>
     );
 }
 
@@ -65,7 +70,7 @@ function TableElements(props) {
 function TableActions(props) {
   return (
     <td>
-        <button className="btn"> <i className="bi bi-pencil"></i></button>
+        <Link className="btn" to={`${props.film.id}/edit`} state={props.film.serialize()}><i className="bi bi-pencil" /></Link>
         <button className="btn"> <i className="bi bi-trash"></i></button>
     </td>
   );

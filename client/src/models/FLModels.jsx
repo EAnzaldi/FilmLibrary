@@ -9,6 +9,8 @@ export function Film(id, title, isFavorite = false, watchDate, rating, userId = 
     if(rating)
         this.rating = rating;
     this.userId=userId;
-    //Id: 1, Title: Pulp Fiction, isFavorite: true, Watch date: March 10, 2025, Rating: 5, User id: 1
 
+    this.serialize = () => {
+        return {id: this.id, title: this.title, isFavorite: this.isFavorite, watchDate: this.watchDate?.format("YYYY-MM-DD"), rating: this.rating};
+    }
 }
