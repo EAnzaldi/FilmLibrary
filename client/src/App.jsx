@@ -8,6 +8,8 @@ import { FilmForm, EditFilmForm } from "./components/FilmForm.jsx";
 import dayjs from "dayjs";
 import {Routes, Route} from 'react-router';
 import DefaultLayout from "./components/DefaultLayout.jsx";
+import { LoginForm } from "./components/LoginForm.jsx";
+import NotFound from "./components/NotFound.jsx"
 
 const myFilmLibrary = [
   new Film(1, "Pulp Fiction", true, "2026-04-10", 5, 1),
@@ -86,6 +88,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/login" element={ <LoginForm/>}></Route>
       <Route path="/films" element={ <DefaultLayout showSidebar={showSidebar} setShowSidebar={setShowSidebar} setFilter={setFilter} filter={filter}/>}>
         <Route index element={ <FilmList films={filteredFilms} /> }></Route>
         <Route path="favorites" element={<FilmList films={filteredFilms} />}></Route>
@@ -95,6 +98,7 @@ function App() {
         <Route path="new" element={<FilmForm addFilm={addFilm} />}></Route>
         <Route path=":filmId/edit" element={<EditFilmForm editFilm={editFilm}/>}></Route>
       </Route>
+      <Route path="*" element={ <NotFound /> } />
     </Routes>
   )
 }
