@@ -18,11 +18,11 @@ const myFilmLibrary = [
 ];
 
 export const FilmFilter = {
-  ALL: 'ALL',
-  FAVORITES: 'FAVORITES',
-  BEST_RATED: 'BEST_RATED',
-  SEEN_LAST_MONTH: 'SEEN_LAST_MONTH',
-  UNSEEN: 'UNSEEN'
+  ALL: '',
+  FAVORITES: 'favorites',
+  BEST_RATED: 'best-rated',
+  SEEN_LAST_MONTH: 'seen-last-month',
+  UNSEEN: 'unseen'
 };
 
 const getFilteredFilms = (films, filter) => {
@@ -88,11 +88,10 @@ function App() {
     <Routes>
       <Route path="/films" element={ <DefaultLayout showSidebar={showSidebar} setShowSidebar={setShowSidebar} setFilter={setFilter} filter={filter}/>}>
         <Route index element={ <FilmList films={filteredFilms} /> }></Route>
-        {/*
-          <Route path="favorites" element={<FilmList films={filteredFilms} />}></Route>
-          <Route path="best-rated" element={<FilmList films={filteredFilms} />}></Route>
-          <Route path="seen-last-month" element={<FilmList films={filteredFilms} />}></Route>
-          <Route path="unseen" element={<FilmList films={filteredFilms} />}></Route>*/}
+        <Route path="favorites" element={<FilmList films={filteredFilms} />}></Route>
+        <Route path="best-rated" element={<FilmList films={filteredFilms} />}></Route>
+        <Route path="seen-last-month" element={<FilmList films={filteredFilms} />}></Route>
+        <Route path="unseen" element={<FilmList films={filteredFilms} />}></Route>
         <Route path="new" element={<FilmForm addFilm={addFilm} />}></Route>
         <Route path=":filmId/edit" element={<EditFilmForm editFilm={editFilm}/>}></Route>
       </Route>

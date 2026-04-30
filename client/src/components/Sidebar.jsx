@@ -1,7 +1,10 @@
 import { Button } from 'react-bootstrap';
 import { FilmFilter } from '../App';
+import { Link } from 'react-router'
 
 function Sidebar(props) {
+   const getClass = (filter) => `btn w-100 text-start ${filter === props.filter ? 'btn-primary' : 'btn-light'}`;
+
     return(
         <div style={{
             position: 'fixed',
@@ -15,31 +18,11 @@ function Sidebar(props) {
             <div style={{ padding: '20px', position: 'relative' }}>
                 <h5 style={{ marginBottom: '20px' }}>Filters</h5>
                 <ul className="list-unstyled d-grid gap-2" style={{ marginTop: '20px' }}>
-                    <li><Button
-                        className={`btn w-100 text-start
-                            ${props.filter === FilmFilter.ALL ? '' : 'btn-light'}`} 
-                        onClick={() => props.onFilterChange(FilmFilter.ALL)}>
-                        All</Button></li>
-                    <li><Button
-                        className={`btn w-100 text-start
-                            ${props.filter === FilmFilter.FAVORITES ? '' : 'btn-light'}`} 
-                        onClick={() => props.onFilterChange(FilmFilter.FAVORITES)}>
-                        Favorites</Button></li>
-                    <li><Button
-                        className={`btn w-100 text-start
-                            ${props.filter === FilmFilter.BEST_RATED ? '' : 'btn-light'}`} 
-                        onClick={() => props.onFilterChange(FilmFilter.BEST_RATED)}>
-                        Best Rated</Button></li>
-                    <li><Button
-                        className={`btn w-100 text-start
-                            ${props.filter === FilmFilter.SEEN_LAST_MONTH ? '' : 'btn-light'}`} 
-                        onClick={() => props.onFilterChange(FilmFilter.SEEN_LAST_MONTH)}>
-                        Seen Last Month</Button></li>
-                    <li><Button
-                        className={`btn w-100 text-start
-                            ${props.filter === FilmFilter.UNSEEN ? '' : 'btn-light'}`} 
-                        onClick={() => props.onFilterChange(FilmFilter.UNSEEN)}>
-                        Unseen</Button></li>
+                    <Link className={getClass(FilmFilter.ALL)} to={`${FilmFilter.ALL}`} onClick={() => props.onFilterChange(FilmFilter.ALL)} >All</Link>
+                    <Link className={getClass(FilmFilter.FAVORITES)} to={`${FilmFilter.FAVORITES}`} onClick={() => props.onFilterChange(FilmFilter.FAVORITES)} >Favorites</Link>
+                    <Link className={getClass(FilmFilter.BEST_RATED)} to={`${FilmFilter.BEST_RATED}`} onClick={() => props.onFilterChange(FilmFilter.BEST_RATED)}>Best rated</Link>
+                    <Link className={getClass(FilmFilter.SEEN_LAST_MONTH)} to={`${FilmFilter.SEEN_LAST_MONTH}`} onClick={() => props.onFilterChange(FilmFilter.SEEN_LAST_MONTH)}>Seen Last Month</Link>
+                    <Link className={getClass(FilmFilter.UNSEEN)} to={`${FilmFilter.UNSEEN}`} onClick={() => props.onFilterChange(FilmFilter.UNSEEN)}>Unseen</Link>
                 </ul>
             </div>
         </div>
