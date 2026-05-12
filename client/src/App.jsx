@@ -86,6 +86,14 @@ function App() {
     });
   }
 
+  const handleFavoriteChange = (filmId) => {
+    setFilms(oldFilms => 
+      oldFilms.map(f => 
+        f.id === filmId ? {...f, isFavorite: !f.isFavorite} : f
+      )
+    );
+  }
+
   const deleteFilm = (filmId) => {
     setFilms(oldFilms => {
       return oldFilms.filter((film) => film.id !== filmId); 
@@ -96,11 +104,11 @@ function App() {
     <Routes>
       <Route path="/login" element={ <LoginForm/>}></Route>
       <Route path="/films" element={ <DefaultLayout showSidebar={showSidebar} setShowSidebar={setShowSidebar} setFilter={setFilter} filter={filter}/>}>
-        <Route index element={ <FilmList films={filteredFilms} deleteFilm={deleteFilm}/> }></Route>
-        <Route path="favorites" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm}/>}></Route>
-        <Route path="best-rated" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm}/>}></Route>
-        <Route path="seen-last-month" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm}/>}></Route>
-        <Route path="unseen" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm}/>}></Route>
+        <Route index element={ <FilmList films={filteredFilms} deleteFilm={deleteFilm} handleFavoriteChange={handleFavoriteChange}/> }></Route>
+        <Route path="favorites" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm} handleFavoriteChange={handleFavoriteChange}/>}></Route>
+        <Route path="best-rated" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm} handleFavoriteChange={handleFavoriteChange}/>}></Route>
+        <Route path="seen-last-month" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm} handleFavoriteChange={handleFavoriteChange}/>}></Route>
+        <Route path="unseen" element={<FilmList films={filteredFilms} deleteFilm={deleteFilm} handleFavoriteChange={handleFavoriteChange}/>}></Route>
         <Route path="new" element={<FilmForm addFilm={addFilm} />}></Route>
         <Route path=":filmId/edit" element={<EditFilmForm editFilm={editFilm}/>}></Route>
       </Route>
